@@ -1,40 +1,457 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Name | Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Prathana Tandel · dynamic portfolio</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter + Fira Code for that dev vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0b0f1c;
+      font-family: 'Inter', sans-serif;
+      color: #e0e4f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* GRAINY NOISE & DYNAMIC BACKGROUND */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 30% 40%, rgba(45, 95, 255, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(200, 80, 255, 0.05) 0%, transparent 45%),
+                  repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* MAIN WRAPPER WITH GLASS EFFECT */
+    .wrapper {
+      position: relative;
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 1.8rem 2.2rem;
+      background: rgba(12, 18, 34, 0.7);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border: 1px solid rgba(90, 140, 255, 0.2);
+      border-radius: 3.5rem 3.5rem 2.5rem 2.5rem;
+      box-shadow: 0 30px 50px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.02);
+      z-index: 2;
+    }
+
+    /* ANIMATED GLOW LINE */
+    .glow-line {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, #3b82f6, #a855f7, #3b82f6, transparent);
+      background-size: 300% 100%;
+      animation: shiftGlow 6s linear infinite;
+      border-radius: 3px;
+      margin: 20px 0 25px 0;
+      opacity: 0.8;
+    }
+    @keyframes shiftGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* HEADER SECTION — with floating social links */
+    .header-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .name-title h1 {
+      font-size: 3.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #fff, #b3cdff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+    .name-title .tagline {
+      font-size: 1.2rem;
+      font-family: 'Fira Code', monospace;
+      color: #93b4ff;
+      border-left: 4px solid #3b82f6;
+      padding-left: 18px;
+      margin-top: 6px;
+      background: rgba(0, 30, 70, 0.3);
+      border-radius: 0 20px 20px 0;
+      width: fit-content;
+      padding: 8px 20px 8px 20px;
+      backdrop-filter: blur(4px);
+    }
+    .address {
+      text-align: right;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.02);
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      border: 1px solid rgba(130, 170, 255, 0.25);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    .address i {
+      color: #5f9eff;
+      margin-right: 8px;
+    }
+    .address a {
+      color: #cbd5ff;
+      text-decoration: none;
+      border-bottom: 1px dashed #5f9eff;
+    }
+    .address a:hover {
+      color: white;
+      border-bottom: 1px solid white;
+    }
+
+    /* social strip — dynamic micro interactions */
+    .social-dyn {
+      display: flex;
+      gap: 2rem;
+      margin: 20px 0 10px;
+      flex-wrap: wrap;
+    }
+    .social-dyn a {
+      color: #ccd6f0;
+      font-size: 1.25rem;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.45rem 1.2rem;
+      border-radius: 40px;
+      background: rgba(25, 40, 70, 0.5);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(100, 160, 255, 0.3);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .social-dyn a i {
+      font-size: 1.7rem;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+    .social-dyn a:hover {
+      background: #1e2b48;
+      border-color: #6d8cff;
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 20px -8px #1e3f8f;
+    }
+    .social-dyn a.github:hover i { color: #c4d0ff; }
+    .social-dyn a.linkedin:hover i { color: #0a66c2; }
+
+    /* section titles */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid rgba(60, 130, 250, 0.4);
+      padding-bottom: 0.5rem;
+    }
+    .section-title i {
+      background: #25365f;
+      padding: 10px 14px;
+      border-radius: 50px;
+      font-size: 1.4rem;
+      color: #9bbaff;
+    }
+
+    /* education cards with unique 3D tilt */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+    .edu-item {
+      background: rgba(18, 28, 50, 0.7);
+      backdrop-filter: blur(4px);
+      padding: 1.5rem 1.8rem;
+      border-radius: 2rem;
+      border: 1px solid #2f4172;
+      transform: rotate(0deg);
+      transition: 0.2s ease-in-out;
+      box-shadow: -10px 12px 20px rgba(0,0,0,0.5);
+    }
+    .edu-item:hover {
+      transform: translateY(-8px) rotate(0.5deg);
+      border-color: #5f7edb;
+      background: rgba(30, 45, 80, 0.8);
+    }
+    .edu-item h3 { font-size: 1.5rem; color: #d6e2ff; }
+    .edu-item .meta { font-family: 'Fira Code', monospace; color: #8db1ff; font-size: 0.95rem; }
+
+    /* skill cloud — dynamic chip style */
+    .skill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 25px 0 30px;
+    }
+    .skill-chip {
+      background: rgba(45, 70, 120, 0.25);
+      backdrop-filter: blur(3px);
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: 1.5px solid rgba(70, 130, 250, 0.4);
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+      box-shadow: 0 5px 10px rgba(0, 10, 30, 0.6);
+      cursor: default;
+    }
+    .skill-chip:hover {
+      border-color: #a0bcff;
+      background: #1e3666;
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 12px 18px -8px #2145a0;
+    }
+
+    /* certification badges */
+    .certs {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    .cert-badge {
+      background: linear-gradient(145deg, #172238, #0e1a2b);
+      padding: 12px 30px 12px 25px;
+      border-radius: 40px;
+      border-left: 8px solid #3b82f6;
+      font-weight: 500;
+      box-shadow: 0 8px 0 #0b121f;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .cert-badge i {
+      font-size: 2rem;
+      color: #fdb94b;
+    }
+    .cert-badge:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 13px 0 #0b121f, 0 0 20px #4f7eff;
+    }
+
+    /* project cards — unique overlapping animation */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin: 30px 0 20px;
+    }
+    .project-card {
+      background: rgba(10, 20, 40, 0.7);
+      backdrop-filter: blur(5px);
+      padding: 1.8rem 1.4rem;
+      border-radius: 2.5rem;
+      border: 1px solid #314b82;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 20px 30px -10px black;
+    }
+    .project-card:hover {
+      transform: scale(1.02) translateY(-10px) rotate(0.8deg);
+      border-color: #6f9dff;
+      background: rgba(20, 38, 70, 0.85);
+      z-index: 10;
+      box-shadow: 0 30px 30px -8px #1e3a8a;
+    }
+    .project-card h3 { font-size: 1.7rem; margin-bottom: 10px; color: #ecf2ff; }
+    .project-card p { color: #b5c9ff; font-size: 0.95rem; }
+    .project-card i { color: #ffdb7c; margin-right: 6px; }
+
+    /* case study double card (MOVEit + tryhackme) special treatment */
+    .double-case {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 20px 0;
+    }
+    .case-item {
+      flex: 1 1 280px;
+      background: rgba(24, 30, 60, 0.7);
+      backdrop-filter: blur(5px);
+      border-radius: 2rem;
+      padding: 1.6rem;
+      border: 2px dashed #6079b0;
+      transition: 0.2s;
+    }
+    .case-item:hover {
+      background: #1f2c55;
+      border: 2px solid #b1c9ff;
+    }
+
+    /* mindscope special bar (visual) */
+    .mindscope-bar {
+      height: 16px;
+      width: 100%;
+      background: linear-gradient(90deg, #6b5cf0, #a358d6, #6b5cf0);
+      border-radius: 20px;
+      margin: 20px 0 10px;
+      animation: pulseWidth 3s infinite alternate;
+    }
+    @keyframes pulseWidth {
+      0% { width: 40%; opacity: 0.7; }
+      100% { width: 95%; opacity: 1; }
+    }
+
+    /* footer / extra */
+    .foot-note {
+      margin-top: 50px;
+      font-size: 0.9rem;
+      text-align: center;
+      border-top: 1px solid #2c3f6e;
+      padding-top: 30px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* responsiveness */
+    @media (max-width: 700px) {
+      .wrapper { padding: 1rem; margin: 1rem; }
+      .name-title h1 { font-size: 2.4rem; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Your Name</h1>
-    <p>Web Developer | AI/ML Enthusiast</p>
-  </header>
+<div class="wrapper">
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I am a Computer Science student passionate about Web Development, AI, and Arduino projects.</p>
-  </section>
+  <!-- header with location & contact -->
+  <div class="header-flex">
+    <div class="name-title">
+      <h1>Prathana Tandel</h1>
+      <div class="tagline"> Full Stack Python · AI/ML · Security  </div>
+    </div>
+    <div class="address">
+      <i class="fas fa-map-pin"></i> 2015 Arya Point, Chhapra road, Navsari-396445 <br>
+      <i class="fas fa-envelope"></i> prathana.t@example.com <!-- (optional mail placeholder) -->
+    </div>
+  </div>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <ul>
-      <li>🧠 Driver Drowsiness Detection</li>
-      <li>🌿 CropDoctor: AI-Powered Plant Disease Detector</li>
-      <li>🛒 Shopping Website (PHP + MySQL)</li>
-    </ul>
-  </section>
+  <!-- dynamic social links (github + linkedin actual) -->
+  <div class="social-dyn">
+    <a href="https://github.com/prathana-tandel0308" target="_blank" class="github"><i class="fab fa-github"></i> prathana-tandel0308</a>
+    <a href="https://www.linkedin.com/in/prathana-tandel-496144349" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i> Prathana Tandel</a>
+  </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: youremail@example.com</p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile">yourprofile</a></p>
-  </section>
+  <div class="glow-line"></div>
 
-  <footer>
-    <p>© 2025 Your Name</p>
-  </footer>
+  <!-- SUMMARY section with typing effect vibe -->
+  <div class="section-title"><i class="fas fa-code"></i> <span>summary</span></div>
+  <div style="font-size: 1.2rem; background: #0f1a2f; padding: 1.8rem; border-radius: 2rem; border-left: 10px solid #3b82f6;">
+    <i class="fas fa-quote-left" style="color: #5f8eff; opacity: 0.6;"></i> 
+    Passionate Full Stack Python Developer with knowledge of AI & Machine Learning. I build smart, user-friendly web apps using Streamlit and develop ML models with Scikit-learn, Pandas, NumPy. I work with Python, Java, C++, PHP, HTML, CSS, JavaScript, and MySQL. Currently learning Cybersecurity fundamentals.
+  </div>
+
+  <!-- EDUCATION uniquely styled cards -->
+  <div class="section-title" style="margin-top: 3rem;"><i class="fas fa-graduation-cap"></i> <span>education</span></div>
+  <div class="edu-grid">
+    <div class="edu-item"><h3>R.N.G. Patel IT</h3> <div class="meta">B.E. CSE · Grade 8.51</div>2023 – 2026</div>
+    <div class="edu-item"><h3>AB School, Tajpore</h3> <div class="meta">HSC (12th Science)</div>2022</div>
+    <div class="edu-item"><h3>Seventh Day H.S.</h3> <div class="meta">SSC (10th)</div>2020</div>
+  </div>
+
+  <!-- SKILLS : interactive chips -->
+  <div class="section-title"><i class="fas fa-cogs"></i> <span>skills & tools</span></div>
+  <div class="skill-cloud">
+    <span class="skill-chip">HTML/CSS</span><span class="skill-chip">Streamlit</span><span class="skill-chip">PHP</span>
+    <span class="skill-chip">Pandas</span><span class="skill-chip">NumPy</span><span class="skill-chip">Scikit‑learn</span>
+    <span class="skill-chip">TensorFlow</span><span class="skill-chip">OpenCV</span><span class="skill-chip">MySQL</span>
+    <span class="skill-chip">VS Code</span><span class="skill-chip">XAMPP</span><span class="skill-chip">Jupyter</span>
+    <span class="skill-chip">Arduino</span><span class="skill-chip">Nmap</span><span class="skill-chip">Metasploit</span>
+    <span class="skill-chip">Nessus</span><span class="skill-chip">Dirb</span><span class="skill-chip">Gobuster</span>
+    <span class="skill-chip">Hydra</span><span class="skill-chip">SQLMap</span><span class="skill-chip">Shodan</span>
+    <span class="skill-chip">Wireshark</span><span class="skill-chip">Java</span><span class="skill-chip">C++</span>
+  </div>
+
+  <!-- CERTIFICATIONS badges -->
+  <div class="section-title"><i class="fas fa-certificate"></i> <span>certifications</span></div>
+  <div class="certs">
+    <div class="cert-badge"><i class="fas fa-rocket"></i> Foundation Course [education Foundation 2024]</div>
+    <div class="cert-badge"><i class="fas fa-robot"></i> AI for Beginners [HP LIFE 2025]</div>
+  </div>
+
+  <!-- PROJECTS section: dynamic cards with description -->
+  <div class="section-title"><i class="fas fa-laptop-code"></i> <span>projects</span></div>
+  <div class="project-grid">
+    <div class="project-card"><i class="fas fa-eye"></i> <h3>Drowsiness Detection</h3><p>Real‑time driver fatigue monitor using eye blink & yawn detection. Buzzer alert prevents accidents.</p></div>
+    <div class="project-card"><i class="fas fa-shopping-cart"></i> <h3>ShopZone</h3><p>E‑commerce with user auth, cart, checkout & admin product management.</p></div>
+    <div class="project-card"><i class="fas fa-chart-line"></i> <h3>AI Cost Forecasting</h3><p>Streamlit app comparing local vs import sourcing costs (Random Forest / Linear Regression).</p></div>
+    <div class="project-card"><i class="fas fa-robot"></i> <h3>MindScope</h3><p>Desktop app predicts introvert/extrovert with bar chart visualization.</p></div>
+  </div>
+
+  <!-- special cyber double (MOVEit + TryHackMe) -->
+  <div class="section-title"><i class="fas fa-shield-alt"></i> <span>cybersecurity · case & labs</span></div>
+  <div class="double-case">
+    <div class="case-item"><i class="fas fa-virus" style="color: #ff7575;"></i> <strong>Bank of America & Infosys</strong> – MOVEit zero‑day (CVE‑2023‑34362) & LockBit impact on third‑party vendors.</div>
+    <div class="case-item"><i class="fas fa-terminal" style="color: #b3ff8f;"></i> <strong>TryHackMe labs</strong> – same case but hands‑on: MOVEit vulnerability & LockBit ransomware simulation.</div>
+  </div>
+
+  <!-- a little extra: MindScope dynamic bar chart (visual) -->
+  <div style="margin: 30px 0 10px; background: #121c30; padding: 1.5rem; border-radius: 1.5rem;">
+    <i class="fas fa-chart-bar"></i> <strong>MindScope personality bar (demo)</strong>
+    <div class="mindscope-bar"></div>
+    <div style="display: flex; justify-content: space-between;">
+      <span>introvert</span><span>⚡ balanced ⚡</span><span>extrovert</span>
+    </div>
+  </div>
+
+  <!-- ADDITIONAL: third party attack repeated? but we already have it. Show unique tools from resume -->
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin: 25px 0;">
+    <span style="background: #1b294a; padding: 8px 20px; border-radius: 30px;"><i class="fas fa-bug"></i> OWASP top 10</span>
+    <span style="background: #1b294a; padding: 8px 20px; border-radius: 30px;"><i class="fas fa-shield"></i> Nessus essentials</span>
+    <span style="background: #1b294a; padding: 8px 20px; border-radius: 30px;"><i class="fas fa-skull"></i> LockBit case</span>
+  </div>
+
+  <!-- hidden gem: footer shows github/linkedin again with actual links -->
+  <div class="foot-note">
+    <i class="fas fa-link"></i> 
+    <a href="https://www.linkedin.com/in/prathana-tandel-496144349" target="_blank" style="color:#8db1ff;">LinkedIn</a>  ·  
+    <a href="https://github.com/prathana-tandel0308" target="_blank" style="color:#8db1ff;">GitHub</a>  ·  Navsari, India
+    <br><span style="color: #5470b0;"># Full Stack · AI · security Enthusiast</span>
+  </div>
+
+  <!-- glowing line at bottom -->
+  <div class="glow-line" style="margin-top: 30px;"></div>
+</div>
+<!-- end wrapper -->
+
+<!-- extra dynamic cursor effect (just a tiny micro interaction) -->
+<script>
+  (function() {
+    // small interactive detail: change glow intensity on mousemove (subtle)
+    document.body.addEventListener('mousemove', function(e) {
+      let x = (e.clientX / window.innerWidth) * 100;
+      let y = (e.clientY / window.innerHeight) * 100;
+      let wrapper = document.querySelector('.wrapper');
+      if (wrapper) {
+        wrapper.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(35, 70, 140, 0.2), rgba(12, 18, 34, 0.8))`;
+      }
+    });
+  })();
+</script>
 </body>
 </html>
